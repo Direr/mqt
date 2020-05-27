@@ -109,7 +109,12 @@ ui <- fluidPage(
   Items should be well written, without obvious answers, traps, or ambiguous formulations. 
   Options should be  correctly randomized within each item. Enough time should be granted for 
   all questions to be answered.",
- br(), br(), 
+ br(), br(),
+ em("Where can I dowload the R code?"),
+ br(),
+ a("https://github.com/Direr/mqt", href="https://github.com/Direr/mqt"),
+ br(), br(),
+ 
 )
 
 server <- function(input, output) {
