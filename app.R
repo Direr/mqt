@@ -37,7 +37,7 @@ ui <- fluidPage(
       sliderInput(
         "nbItems", 
         label = "Select the number of items in your test:",
-        min = 1, max = 100, value = 20
+        min = 1, max = 80, value = 20
       ),
       
     ),
@@ -63,6 +63,21 @@ ui <- fluidPage(
   
   "F.A.Q.",
   br(), br(),
+  em("What is targeted proportion of omission?"),
+  br(),
+  "It is the efficient proportion of omitted items that the marks try to induce among examineees.", 
+  br(), br(),
+  em("What is total score's mean error?"),
+  br(),
+  "It measures by how much total score deviates on average from true examinees' ability. 
+  For instance, with 20 items and 3 options per item, total scores distribute over a 0-20 scale and 
+  deviate from true ability by +/-2.67 on average.",  
+  br(), br(),
+  em("What is mean error for each item?"),
+  br(),
+  "It measures by how much expected score deviates on average from true examinees' ability for one item.
+  To reduce mean error, include more items in your test or more options in your items.", 
+  br(), br(),
   em("Why is the mark for wrong answer negative ? "),
   br(),
   "A negative mark corrects for selecting by chance the right answer. It is set so that the score 
@@ -70,32 +85,18 @@ ui <- fluidPage(
   br(), br(),
   em("Why is the mark for omission postive ? "),
   br(),
-  "The mark gives enough incentives to omit in the case examinees are not confindent 
-  enough about which option is right. Omission provides more accurate score than blind guessing.",
+  "The mark gives enough incentives to omit in the case examinees are not confident 
+  enough about which option is right. Omission provides more accurate scores than blind guessing.",
   br(), br(),
   em("Why do marks depend on the number of options in each item?"),
   br(),
   "The less options per item, the easier to guess the right option. Wrong selection should be more 
-  heavily penalized and omission more encouraged.",
+  penalized and omission more encouraged.",
   br(), br(),
   em("Why do marks depend on the number of items in the test?"),
   br(),
-  "With more items, examinees' ability is more accurately estimated. Omission should be discouraged
-  by lowering the mark for omission.",
-  br(), br(),
-  em("What is targeted proportion of omission?"),
-  br(),
-  "It is the proportion of omitted items found efficient and that the marks tries to induce.", 
-  br(), br(),
-  em("What is total score's mean error?"),
-  br(),
-  "It measures by how much total score deviates on average from true examinees' ability. 
-  For instance, with 20 items and 3 options per item, scores distribute over a 0-20 scale and 
-  deviate from true ability by +/-2.67 on average.",  
-  br(), br(),
-  em("What is mean error for each item?"),
-  br(),
-  "It measures by how much expected score deviates on average from true examinees' ability for one item.", 
+  "With more items, examinees' ability is better estimated. Examinees should omit less, which is 
+  accomplished by a lower mark for omission.",
   br(), br(),
   em("What are the main assumptions of the estimation model?"),
   br(),
@@ -105,14 +106,14 @@ ui <- fluidPage(
   br(), br(),
   em("Aside from marks, what other factors are important for scores to be informative?"),
   br(),
-  "The quality of questions and answers is of first importance for scores' accuracy.
+  "The quality of your questions and answers is of first importance for scores' accuracy.
   Items should be well written, without obvious answers, traps, or ambiguous formulations. 
   Options should be  correctly randomized within each item. Enough time should be granted for 
   all questions to be answered.",
  br(), br(),
- em("Where can I dowload the R code?"),
+ em("Can I dowload the R code?"),
  br(),
- a("https://github.com/Direr/mqt", href="https://github.com/Direr/mqt"),
+ "Yes: ", a("https://github.com/Direr/mqt", href="https://github.com/Direr/mqt"),
  br(), br(),
  
 )
