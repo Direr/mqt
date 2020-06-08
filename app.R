@@ -2,10 +2,6 @@ library(shiny)
 library(shinythemes)
 rm(list=ls())
 
-lambda <- 1
-nb.theta <- 100
-nb.pbar  <- 100
-
 ui <- fluidPage(
   
   theme = shinytheme("superhero"),
@@ -16,7 +12,9 @@ ui <- fluidPage(
   span(a("A. Direr (2020) \"Efficient Scoring of Multiple-Choice Tests\"", 
     href="https://www.researchgate.net/publication/332222013_Efficient_Scoring_of_Multiple-Choice_Tests"),
     style="size:2.4em;"),
-  
+  br(),
+  span("R code: ", style="size-font:2.4em;"),
+  span(a("https://github.com/Direr/mqt", href="https://github.com/Direr/mqt"), style="size:2.4em;"),
   br(),
   br(),
   
@@ -63,6 +61,13 @@ ui <- fluidPage(
   
   "F.A.Q.",
   br(), br(),
+  em("What are the main assumptions of the estimation model?"),
+  br(),
+  "The marks jointly minimize mean square error between scores and abilities averaged over 
+  all examinees. Abilities are uniformly distributed. Examinees are loss averse (theis disutitility
+  from a wrong mark is 50% higher than their utility from getting a full mark).  See the paper for 
+  a full description of the model.",
+  br(), br(),
   em("What is targeted proportion of omission?"),
   br(),
   "It is the efficient proportion of omitted items that the marks try to induce among examineees.", 
@@ -71,7 +76,7 @@ ui <- fluidPage(
   br(),
   "It measures by how much total score deviates on average from true examinees' ability. 
   For instance, with 20 items and 3 options per item, total scores distribute over a 0-20 scale and 
-  deviate from true ability by +/-2.67 on average.",  
+  deviate from true ability by +/-2.44 on average.",  
   br(), br(),
   em("What is mean error for each item?"),
   br(),
@@ -98,24 +103,15 @@ ui <- fluidPage(
   "With more items, examinees' ability is better estimated. Examinees should omit less, which is 
   accomplished by a lower mark for omission.",
   br(), br(),
-  em("What are the main assumptions of the estimation model?"),
-  br(),
-  "The marks jointly minimize mean square error between scores and abilities averaged over 
-  all examinees. Abilities are uniformly distributed. Examinees are risk neutral. See 
-  the paper for a full description of the model.",
-  br(), br(),
   em("Aside from marks, what other factors are important for scores to be informative?"),
   br(),
   "The quality of your questions and answers is of first importance for scores' accuracy.
   Items should be well written, without obvious answers, traps, or ambiguous formulations. 
   Options should be  correctly randomized within each item. Enough time should be granted for 
   all questions to be answered.",
- br(), br(),
- em("Can I dowload the R code?"),
- br(),
- "Yes: ", a("https://github.com/Direr/mqt", href="https://github.com/Direr/mqt"),
- br(), br(),
- 
+  br(), br(),
+  em("last version: June 2020", style="color:lightgrey; font-size:.9em;"),
+  br(), br(),
 )
 
 server <- function(input, output) {
@@ -123,12 +119,15 @@ server <- function(input, output) {
   reactive_results <- eventReactive(
     c(input$nbItems, input$nbOptions),
     {
-      n <- input$nbItems
-      m <- as.numeric(input$nbOptions)
-      p0 <- 1/m
-      tstar <- -1/(m-1)
-      theta.inf <- tstar -.1
-      theta.sup <- .01
+      lambda <- 1.5                                 # loss aversion coefficient 
+      nb.theta <- 100                               # number of points on the grid for theta
+      nb.pbar  <- 100                               # number of points on the grid for marginal ability
+      n <- input$nbItems                            # number of items
+      m <- as.numeric(input$nbOptions)              # number of options
+      p0 <- 1/m                                     # minimal ability
+      tstar <- -1/(m-1)                             # notional mark for wrongs
+      theta.inf <- tstar -.1                        # lower bound for mark for wrongs
+      theta.sup <- .01                              # upper bound
       pas.theta <- (theta.sup - theta.inf)/nb.theta
       v.theta   <- seq(from=theta.inf, to=theta.sup, by=pas.theta)
       pbar.inf <- p0
